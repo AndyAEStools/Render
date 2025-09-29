@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Planning Calcs Tool</title>
+    <style>
+      :root { --fg:#111; --muted:#555; --border:#e3e3e3; --radius:14px; }
+      html,body { height:100%; }
+      body {
+        margin:0; padding:2rem;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+        color:var(--fg); background:#fff;
+        display:flex; flex-direction:column; align-items:center;
+      }
+      .logo { display:flex; align-items:center; gap:.75rem; margin-bottom:1.5rem; }
+      .logo img { height:38px; }
+      .title { font-size:2.25rem; font-weight:700; margin:0 0 1rem 0; }
+      .card {
+        width:min(680px, 100%);
+        border:1px solid var(--border); border-radius:var(--radius);
+        padding:1.25rem 1.25rem; box-shadow:0 1px 0 rgba(0,0,0,.02);
+        background:#fff;
+      }
+      label { display:block; margin:.75rem 0 .25rem; font-weight:600; }
+      input[type="file"], input[type="password"] {
+        width:100%; padding:.6rem .7rem; border:1px solid var(--border);
+        border-radius:10px; font-size:1rem; background:#fff;
+      }
+      .hint { color:var(--muted); font-size:.95rem; margin:.25rem 0 1rem; }
+      .row { display:grid; gap:1rem; }
+      button {
+        margin-top:1rem; padding:.7rem 1rem; border:0; border-radius:10px;
+        background:#111; color:#fff; font-weight:600; cursor:pointer;
+      }
+      .error {
+        margin:0 0 .75rem 0; padding:.6rem .75rem; border-radius:10px;
+        background:#fff4f4; color:#b00020; border:1px solid #ffd6d6;
+      }
+      footer { margin-top:2rem; color:var(--muted); font-size:.9rem; }
+    </style>
+  </head>
+  <body>
+    <div class="logo">
+      <img src="/static/logo.png" alt="Company logo"/>
+      <div style="font-weight:700; color:#5a8f3c;">AES Sustainability</div>
+    </div>
+
+    <h1 class="title">Planning Calcs Tool</h1>
+
+    <form class="card" action="/process" method="POST" enctype="multipart/form-data">
+      {% if error %}
+        <div class="error">{{ error }}</div>
+      {% endif %}
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter password" required>
+
+      <label for="excel">Excel file (.xls / .xlsx / .xlsm)</label>
+      <input id="excel" name="excel" type="file" accept=".xls,.xlsx,.xlsm,.xltx,.xltm" required>
+      <div class="hint">This workbook controls the edits to apply to each XML.</div>
+
+      <label for="xmlzip">ZIP with XMLs (.zip)</label>
+      <input id="xmlzip" name="xmlzip" type="file" accept=".zip" required>
+
+      <button type="submit">Run</button>
+    </form>
+
+    <footer>Files are processed temporarily in memory; nothing is stored server-side.</footer>
+  </body>
+</html>
